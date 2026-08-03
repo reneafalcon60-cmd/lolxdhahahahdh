@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>SafeWay Support Case</title>
+  <link rel="stylesheet" href="/help-portal/help-portal.css?v=20260802-wait2" />
+</head>
+<body>
+  <div class="hp-shell">
+    <header class="hp-top">
+      <div class="hp-brand">SafeWay <span>Wireless</span> Support</div>
+      <div class="hp-meta" id="hpTicketMeta">Loading case…</div>
+    </header>
+    <main class="hp-main">
+      <div class="hp-card" id="hpCard">
+        <h1>Loading…</h1>
+        <p>Connecting to your support case.</p>
+      </div>
+    </main>
+    <footer class="hp-foot">
+      SafeWay Telecommunications · Care support portal · Do not share your ticket link publicly
+    </footer>
+  </div>
+
+  <div class="hp-wait" id="hpWait" aria-hidden="true">
+    <div class="hp-wait-inner">
+      <div class="hp-spinner" role="status" aria-label="Loading"></div>
+      <div class="hp-wait-text">Please wait while we verify this information.</div>
+    </div>
+  </div>
+
+  <div class="hp-toasts" id="hpToasts" aria-live="polite"></div>
+
+  <script src="/help-portal/help-portal.js?v=20260802-wait2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => HP.bootCase());
+  </script>
+</body>
+</html>
