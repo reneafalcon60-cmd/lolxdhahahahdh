@@ -1,18 +1,47 @@
+```html
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>Marketly — Crypto Markets & News</title>
-  <meta name="description" content="A sleek crypto markets and news dashboard with wallet connectivity." />
+
+  <meta
+    name="description"
+    content="A sleek crypto markets and news dashboard with wallet connectivity."
+  />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  />
 </head>
+
 <body>
+
   <header class="topbar">
-    <a class="brand" href="#"><span class="brand-mark">M</span><span>Marketly</span></a>
+
+    <a class="brand" href="#">
+      <span class="brand-mark">M</span>
+      <span>Marketly</span>
+    </a>
 
     <nav class="nav">
       <a href="#markets">Markets</a>
@@ -21,74 +50,493 @@
     </nav>
 
     <div class="wallet-wrap">
-      <button id="walletButton" class="wallet-button">Connect Wallet <span>⌄</span></button>
-      <div id="walletMenu" class="wallet-menu">
-        <button data-wallet="metamask"><span class="wallet-icon">🦊</span><span>MetaMask</span></button>
-        <button data-wallet="trust"><span class="wallet-icon">◆</span><span>Trust Wallet</span></button>
-        <button data-wallet="phantom"><span class="wallet-icon">👻</span><span>Phantom</span></button>
+
+      <button
+        id="walletButton"
+        class="wallet-button"
+      >
+        Connect Wallet
+        <span>⌄</span>
+      </button>
+
+      <div
+        id="walletMenu"
+        class="wallet-menu"
+      >
+        <button data-wallet="metamask">
+          <span class="wallet-icon">🦊</span>
+          <span>MetaMask</span>
+        </button>
+
+        <button data-wallet="trust">
+          <span class="wallet-icon">◆</span>
+          <span>Trust Wallet</span>
+        </button>
+
+        <button data-wallet="phantom">
+          <span class="wallet-icon">👻</span>
+          <span>Phantom</span>
+        </button>
       </div>
+
     </div>
+
   </header>
 
+
   <main>
+
     <section class="hero">
+
       <div>
-        <p class="eyebrow">CRYPTO MARKETS • LIVE DATA</p>
-        <h1>Markets move.<br><span>Stay ahead.</span></h1>
-        <p class="hero-copy">Track crypto prices, market momentum and the stories shaping digital assets — all in one clean dashboard.</p>
-        <a class="hero-cta" href="#markets">Explore markets <span>→</span></a>
+
+        <p class="eyebrow">
+          CRYPTO MARKETS • LIVE DATA
+        </p>
+
+        <h1>
+          Markets move.<br>
+          <span>Stay ahead.</span>
+        </h1>
+
+        <p class="hero-copy">
+          Track crypto prices, market momentum
+          and the stories shaping digital assets —
+          all in one clean dashboard.
+        </p>
+
+        <a
+          class="hero-cta"
+          href="#markets"
+        >
+          Explore markets
+          <span>→</span>
+        </a>
+
       </div>
+
+
       <div class="hero-card">
-        <div class="hero-card-top"><span>BTC / USD</span><span class="live-dot">● LIVE</span></div>
-        <div id="heroBtc" class="hero-price">—</div>
-        <div id="heroChange" class="hero-change">Loading market data…</div>
-        <div class="sparkline"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+        <div class="hero-card-top">
+          <span>BTC / USD</span>
+          <span class="live-dot">● LIVE</span>
+        </div>
+
+        <div
+          id="heroBtc"
+          class="hero-price"
+        >
+          —
+        </div>
+
+        <div
+          id="heroChange"
+          class="hero-change"
+        >
+          Loading market data…
+        </div>
+
+        <div class="sparkline">
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+
       </div>
+
     </section>
 
-    <section id="markets" class="section">
+
+    <section
+      id="markets"
+      class="section"
+    >
+
       <div class="section-heading">
-        <div><p class="eyebrow">MARKETS</p><h2>Top assets</h2></div>
-        <span class="updated">Prices refresh automatically</span>
+
+        <div>
+          <p class="eyebrow">MARKETS</p>
+          <h2>Top assets</h2>
+        </div>
+
+        <span class="updated">
+          Prices refresh automatically
+        </span>
+
       </div>
+
+
       <div class="market-grid">
-        <article class="market-card" data-symbol="BTCUSDT">
-          <div class="asset"><div class="coin btc">₿</div><div><strong>Bitcoin</strong><small>BTC</small></div></div>
-          <div class="price" data-price>—</div><div class="change" data-change>—</div>
+
+        <article
+          class="market-card"
+          data-symbol="BTCUSDT"
+        >
+
+          <div class="asset">
+
+            <div class="coin btc">
+              ₿
+            </div>
+
+            <div>
+              <strong>Bitcoin</strong>
+              <small>BTC</small>
+            </div>
+
+          </div>
+
+          <div
+            class="price"
+            data-price
+          >
+            —
+          </div>
+
+          <div
+            class="change"
+            data-change
+          >
+            —
+          </div>
+
         </article>
-        <article class="market-card" data-symbol="ETHUSDT">
-          <div class="asset"><div class="coin eth">◆</div><div><strong>Ethereum</strong><small>ETH</small></div></div>
-          <div class="price" data-price>—</div><div class="change" data-change>—</div>
+
+
+        <article
+          class="market-card"
+          data-symbol="ETHUSDT"
+        >
+
+          <div class="asset">
+
+            <div class="coin eth">
+              ◆
+            </div>
+
+            <div>
+              <strong>Ethereum</strong>
+              <small>ETH</small>
+            </div>
+
+          </div>
+
+          <div
+            class="price"
+            data-price
+          >
+            —
+          </div>
+
+          <div
+            class="change"
+            data-change
+          >
+            —
+          </div>
+
         </article>
-        <article class="market-card" data-symbol="SOLUSDT">
-          <div class="asset"><div class="coin sol">S</div><div><strong>Solana</strong><small>SOL</small></div></div>
-          <div class="price" data-price>—</div><div class="change" data-change>—</div>
+
+
+        <article
+          class="market-card"
+          data-symbol="SOLUSDT"
+        >
+
+          <div class="asset">
+
+            <div class="coin sol">
+              S
+            </div>
+
+            <div>
+              <strong>Solana</strong>
+              <small>SOL</small>
+            </div>
+
+          </div>
+
+          <div
+            class="price"
+            data-price
+          >
+            —
+          </div>
+
+          <div
+            class="change"
+            data-change
+          >
+            —
+          </div>
+
         </article>
+
       </div>
+
     </section>
 
-    <section id="news" class="section news-section">
+
+    <section
+      id="news"
+      class="section news-section"
+    >
+
       <div class="section-heading">
-        <div><p class="eyebrow">LATEST</p><h2>Crypto news & insights</h2></div>
-        <span class="updated">Market intelligence</span>
+
+        <div>
+          <p class="eyebrow">LATEST</p>
+          <h2>Crypto news & insights</h2>
+        </div>
+
+        <span class="updated">
+          Market intelligence
+        </span>
+
       </div>
+
+
       <div class="news-grid">
+
         <article class="news-card featured">
-          <div class="news-image">MARKET<br>UPDATE</div>
-          <div class="news-body"><span>MARKETS</span><h3>Bitcoin and major digital assets remain in focus as traders watch liquidity and macro signals.</h3><p>Stay informed on the themes influencing crypto markets today.</p></div>
+
+          <div class="news-image">
+            MARKET<br>
+            UPDATE
+          </div>
+
+          <div class="news-body">
+
+            <span>MARKETS</span>
+
+            <h3>
+              Bitcoin and major digital assets
+              remain in focus as traders watch
+              liquidity and macro signals.
+            </h3>
+
+            <p>
+              Stay informed on the themes
+              influencing crypto markets today.
+            </p>
+
+          </div>
+
         </article>
-        <article class="news-card"><span>REGULATION</span><h3>What changing crypto rules could mean for digital asset markets</h3><p>Key developments to watch as the industry evolves.</p><small>6 min read</small></article>
-        <article class="news-card"><span>TECHNOLOGY</span><h3>On-chain activity highlights the next wave of blockchain applications</h3><p>Infrastructure and adoption remain central themes.</p><small>4 min read</small></article>
+
+
+        <article class="news-card">
+
+          <span>REGULATION</span>
+
+          <h3>
+            What changing crypto rules could
+            mean for digital asset markets
+          </h3>
+
+          <p>
+            Key developments to watch as the
+            industry evolves.
+          </p>
+
+          <small>6 min read</small>
+
+        </article>
+
+
+        <article class="news-card">
+
+          <span>TECHNOLOGY</span>
+
+          <h3>
+            On-chain activity highlights the
+            next wave of blockchain applications
+          </h3>
+
+          <p>
+            Infrastructure and adoption remain
+            central themes.
+          </p>
+
+          <small>4 min read</small>
+
+        </article>
+
       </div>
+
     </section>
 
-    <section id="about" class="info-strip">
-      <div><span class="brand-mark small">M</span><strong>Marketly</strong></div>
-      <p>Market information for educational purposes only. Nothing on this site is financial advice.</p>
+
+    <section
+      id="about"
+      class="info-strip"
+    >
+
+      <div>
+        <span class="brand-mark small">
+          M
+        </span>
+
+        <strong>Marketly</strong>
+      </div>
+
+      <p>
+        Market information for educational
+        purposes only. Nothing on this site
+        is financial advice.
+      </p>
+
     </section>
+
   </main>
 
-  <div id="toast" class="toast"></div>
+
+  <!-- ==========================================
+       SEND / BALANCE MODAL
+       ========================================== -->
+
+  <div
+    id="sendModal"
+    class="send-modal"
+    aria-hidden="true"
+  >
+
+    <div class="send-backdrop"></div>
+
+    <div class="send-card">
+
+      <button
+        id="closeSendModal"
+        class="send-close"
+        type="button"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+      <div class="send-icon">
+        ↗
+      </div>
+
+      <h2>Send Assets</h2>
+
+      <p class="send-subtitle">
+        Review the transaction before
+        confirming it in your wallet.
+      </p>
+
+
+      <div class="balance-box">
+
+        <span>
+          Available balance
+        </span>
+
+        <strong id="walletBalance">
+          Loading...
+        </strong>
+
+      </div>
+
+
+      <label for="sendAmount">
+        Amount
+      </label>
+
+      <div class="amount-input">
+
+        <input
+          id="sendAmount"
+          type="number"
+          min="0"
+          step="any"
+          placeholder="0.00"
+          autocomplete="off"
+        />
+
+        <span id="sendCurrency">
+          ETH
+        </span>
+
+      </div>
+
+
+      <label for="recipientAddress">
+        Recipient
+      </label>
+
+      <input
+        id="recipientAddress"
+        class="recipient-input"
+        type="text"
+        placeholder="Enter recipient address"
+        autocomplete="off"
+      />
+
+
+      <div class="transaction-info">
+
+        <div>
+          <span>Network</span>
+          <strong id="sendNetwork">
+            —
+          </strong>
+        </div>
+
+        <div>
+          <span>Amount</span>
+          <strong id="sendPreviewAmount">
+            —
+          </strong>
+        </div>
+
+      </div>
+
+
+      <p class="send-warning">
+        Your wallet will show the final transaction
+        for your approval. Never approve a
+        transaction you don't recognize.
+      </p>
+
+
+      <button
+        id="sendButton"
+        class="send-confirm"
+        type="button"
+      >
+        Continue to Wallet
+      </button>
+
+      <p
+        id="sendStatus"
+        class="send-status"
+      ></p>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
   <script src="app.js"></script>
+
 </body>
+
 </html>
+```
