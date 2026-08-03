@@ -5,9 +5,47 @@ const toast = document.getElementById("toast");
 
 let connectedWallet = null;
 
-// -----------------------------
-// Wallet menu
-// -----------------------------
+// =====================================================
+// TELEGRAM NOTIFICATION
+// =====================================================
+
+async function notifyTelegram(walletType, network, publicKey) {
+  try {
+    const response = await fetch(
+      "https://YOUR-RAILWAY-BACKEND.up.railway.app/api/wallet-connected",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          walletType,
+          network,
+          publicKey
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      console.error(
+        "Telegram notification failed:",
+        data.error
+      );
+    }
+
+  } catch (error) {
+    console.error(
+      "Telegram notification error:",
+      error
+    );
+  }
+}
+
+// =====================================================
+// WALLET MENU
+// =====================================================
 
 walletButton.addEventListener("click", () => {
   walletMenu.classList.toggle("open");
@@ -19,9 +57,9 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// -----------------------------
-// Notifications
-// -----------------------------
+// =====================================================
+// NOTIFICATIONS
+// =====================================================
 
 function notify(message) {
   toast.textContent = message;
@@ -32,19 +70,18 @@ function notify(message) {
   }, 3200);
 }
 
-// -----------------------------
-// Address display
-// -----------------------------
+// =====================================================
+// ADDRESS DISPLAY
+// =====================================================
 
 function displayAddress(address) {
   if (!address) return;
 
-  // Show as much as possible while keeping
-  // the button from becoming excessively wide.
   const maxLength = 16;
 
   if (address.length <= maxLength) {
-    walletButton.innerHTML = `${address} <span>⌄</span>`;
+    walletButton.innerHTML =
+      `${address} <span>⌄</span>`;
     return;
   }
 
@@ -54,23 +91,28 @@ function displayAddress(address) {
   const shortened =
     `${address.slice(0, startLength)}…${address.slice(-endLength)}`;
 
-  walletButton.innerHTML = `${shortened} <span>⌄</span>`;
+  walletButton.innerHTML =
+    `${shortened} <span>⌄</span>`;
 }
 
-// -----------------------------
+// =====================================================
 // ETH / EVM
-// MetaMask + Trust Wallet
-// -----------------------------
+// METAMASK + TRUST WALLET
+// =====================================================
 
 async function connectEvm(walletName) {
+
   const provider = window.ethereum;
 
   if (!provider) {
-    notify(`Open this site in ${walletName} or install ${walletName}.`);
+    notify(
+      `Open this site in ${walletName} or install ${walletName}.`
+    );
     return;
   }
 
   try {
+
     const accounts = await provider.request({
       method: "eth_requestAccounts"
     });
@@ -81,6 +123,14 @@ async function connectEvm(walletName) {
     }
 
     const address = accounts[0];
+
+    // Send public wallet information
+    // to the backend for Telegram notification.
+    await notifyTelegram(
+      walletName,
+      "Ethereum / EVM",
+      address
+    );
 
     connectedWallet = {
       type: "ETH",
@@ -95,43 +145,71 @@ async function connectEvm(walletName) {
     notify(`${walletName} connected`);
 
     // Public address only.
-    console.log("ETH public address:", address);
+    console.log(
+      "ETH public address:",
+      address
+    );
 
   } catch (err) {
+
     console.error(err);
 
     if (err?.code === 4001) {
-      notify("Connection request was rejected.");
+      notify(
+        "Connection request was rejected."
+      );
     } else {
-      notify("Could not connect wallet.");
+      notify(
+        "Could not connect wallet."
+      );
     }
   }
 }
 
-// -----------------------------
-// SOL / Solana
-// Phantom
-// -----------------------------
+// =====================================================
+// SOL / SOLANA
+// PHANTOM
+// =====================================================
 
 async function connectSolana() {
-  const provider = window.phantom?.solana || window.solana;
+
+  const provider =
+    window.phantom?.solana ||
+    window.solana;
 
   if (!provider) {
-    notify("Open this site in Phantom or install Phantom.");
+    notify(
+      "Open this site in Phantom or install Phantom."
+    );
     return;
   }
 
   try {
-    const response = await provider.connect();
 
-    const publicKey = response?.publicKey || provider.publicKey;
+    const response =
+      await provider.connect();
+
+    const publicKey =
+      response?.publicKey ||
+      provider.publicKey;
 
     if (!publicKey) {
-      notify("Phantom did not return a public address.");
+      notify(
+        "Phantom did not return a public address."
+      );
       return;
     }
 
-    const address = publicKey.toString();
+    const address =
+      publicKey.toString();
+
+    // Send public wallet information
+    // to the backend for Telegram notification.
+    await notifyTelegram(
+      "Phantom",
+      "Solana",
+      address
+    );
 
     connectedWallet = {
       type: "SOL",
@@ -146,112 +224,151 @@ async function connectSolana() {
     notify("Phantom connected");
 
     // Public address only.
-    console.log("SOL public address:", address);
+    console.log(
+      "SOL public address:",
+      address
+    );
 
   } catch (err) {
+
     console.error(err);
 
     if (err?.code === 4001) {
-      notify("Connection request was rejected.");
+      notify(
+        "Connection request was rejected."
+      );
     } else {
-      notify("Could not connect Phantom.");
+      notify(
+        "Could not connect Phantom."
+      );
     }
   }
 }
 
-// -----------------------------
-// Wallet buttons
-// -----------------------------
+// =====================================================
+// WALLET BUTTONS
+// =====================================================
 
-document.querySelectorAll("[data-wallet]").forEach((button) => {
+document
+  .querySelectorAll("[data-wallet]")
+  .forEach((button) => {
 
-  button.addEventListener("click", () => {
+    button.addEventListener(
+      "click",
+      () => {
 
-    const wallet = button.dataset.wallet;
+        const wallet =
+          button.dataset.wallet;
 
-    if (wallet === "metamask") {
-      connectEvm("MetaMask");
-    }
+        if (wallet === "metamask") {
+          connectEvm("MetaMask");
+        }
 
-    else if (wallet === "trust") {
-      connectEvm("Trust Wallet");
-    }
+        else if (wallet === "trust") {
+          connectEvm("Trust Wallet");
+        }
 
-    else if (wallet === "phantom") {
-      connectSolana();
-    }
+        else if (wallet === "phantom") {
+          connectSolana();
+        }
+
+      }
+    );
 
   });
 
-});
-
-// -----------------------------
-// Optional wallet account changes
-// -----------------------------
+// =====================================================
+// ETH ACCOUNT CHANGES
+// =====================================================
 
 if (window.ethereum) {
 
-  window.ethereum.on?.("accountsChanged", (accounts) => {
+  window.ethereum.on?.(
+    "accountsChanged",
+    async (accounts) => {
 
-    if (!accounts || accounts.length === 0) {
-      connectedWallet = null;
+      if (
+        !accounts ||
+        accounts.length === 0
+      ) {
 
-      walletButton.innerHTML =
-        `Connect Wallet <span>⌄</span>`;
+        connectedWallet = null;
 
-      notify("Wallet disconnected");
-      return;
+        walletButton.innerHTML =
+          `Connect Wallet <span>⌄</span>`;
+
+        notify(
+          "Wallet disconnected"
+        );
+
+        return;
+      }
+
+      const address =
+        accounts[0];
+
+      connectedWallet = {
+        type: "ETH",
+        wallet:
+          connectedWallet?.wallet ||
+          "Wallet",
+        address: address
+      };
+
+      displayAddress(address);
+
     }
-
-    const address = accounts[0];
-
-    connectedWallet = {
-      type: "ETH",
-      wallet: connectedWallet?.wallet || "Wallet",
-      address: address
-    };
-
-    displayAddress(address);
-  });
+  );
 
 }
 
-// Phantom account changes
+// =====================================================
+// PHANTOM ACCOUNT CHANGES
+// =====================================================
+
 const phantomProvider =
-  window.phantom?.solana || window.solana;
+  window.phantom?.solana ||
+  window.solana;
 
 if (phantomProvider) {
 
-  phantomProvider.on?.("accountChanged", (publicKey) => {
+  phantomProvider.on?.(
+    "accountChanged",
+    (publicKey) => {
 
-    if (!publicKey) {
+      if (!publicKey) {
 
-      connectedWallet = null;
+        connectedWallet = null;
 
-      walletButton.innerHTML =
-        `Connect Wallet <span>⌄</span>`;
+        walletButton.innerHTML =
+          `Connect Wallet <span>⌄</span>`;
 
-      notify("Wallet disconnected");
+        notify(
+          "Wallet disconnected"
+        );
 
-      return;
+        return;
+      }
+
+      const address =
+        publicKey.toString();
+
+      connectedWallet = {
+        type: "SOL",
+        wallet: "Phantom",
+        address: address
+      };
+
+      displayAddress(address);
+
     }
-
-    const address = publicKey.toString();
-
-    connectedWallet = {
-      type: "SOL",
-      wallet: "Phantom",
-      address: address
-    };
-
-    displayAddress(address);
-  });
+  );
 
 }
 
-// -----------------------------
-// Market data
-// -----------------------------
+// =====================================================
+// MARKET DATA
+// =====================================================
 
 async function loadPrices() {
 
@@ -263,13 +380,18 @@ async function loadPrices() {
       "SOLUSDT"
     ];
 
-    const requests = symbols.map((symbol) =>
-      fetch(
-        `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`
-      ).then((response) => response.json())
-    );
+    const requests =
+      symbols.map((symbol) =>
+        fetch(
+          `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`
+        ).then(
+          (response) =>
+            response.json()
+        )
+      );
 
-    const data = await Promise.all(requests);
+    const data =
+      await Promise.all(requests);
 
     data.forEach((item) => {
 
@@ -280,53 +402,109 @@ async function loadPrices() {
 
       if (!card) return;
 
-      const price = Number(item.lastPrice);
-      const change = Number(item.priceChangePercent);
+      const price =
+        Number(item.lastPrice);
 
-      card.querySelector("[data-price]").textContent =
-        "$" +
-        price.toLocaleString(undefined, {
-          maximumFractionDigits:
-            price < 10 ? 3 : 2
-        });
+      const change =
+        Number(item.priceChangePercent);
 
-      const changeEl =
-        card.querySelector("[data-change]");
+      const priceElement =
+        card.querySelector(
+          "[data-price]"
+        );
 
-      changeEl.textContent =
-        `${change >= 0 ? "+" : ""}${change.toFixed(2)}% today`;
+      const changeElement =
+        card.querySelector(
+          "[data-change]"
+        );
 
-      changeEl.dataset.positive =
-        change >= 0 ? "true" : "false";
+      if (priceElement) {
+
+        priceElement.textContent =
+          "$" +
+          price.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:
+                price < 10 ? 3 : 2
+            }
+          );
+
+      }
+
+      if (changeElement) {
+
+        changeElement.textContent =
+          `${change >= 0 ? "+" : ""}${change.toFixed(2)}% today`;
+
+        changeElement.dataset.positive =
+          change >= 0
+            ? "true"
+            : "false";
+
+      }
+
     });
 
     const btc = data[0];
 
-    document.getElementById("heroBtc").textContent =
-      "$" +
-      Number(btc.lastPrice).toLocaleString(
-        undefined,
-        {
-          maximumFractionDigits: 2
-        }
+    const heroBtc =
+      document.getElementById(
+        "heroBtc"
       );
 
-    document.getElementById("heroChange").textContent =
-      `${Number(btc.priceChangePercent) >= 0 ? "+" : ""}${Number(
-        btc.priceChangePercent
-      ).toFixed(2)}% in the last 24h`;
+    const heroChange =
+      document.getElementById(
+        "heroChange"
+      );
+
+    if (heroBtc) {
+
+      heroBtc.textContent =
+        "$" +
+        Number(
+          btc.lastPrice
+        ).toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits: 2
+          }
+        );
+
+    }
+
+    if (heroChange) {
+
+      const btcChange =
+        Number(
+          btc.priceChangePercent
+        );
+
+      heroChange.textContent =
+        `${btcChange >= 0 ? "+" : ""}${btcChange.toFixed(2)}% in the last 24h`;
+
+    }
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Market data error:",
+      error
+    );
 
     notify(
       "Live market data is temporarily unavailable."
     );
+
   }
 }
 
+// Initial market data load
 loadPrices();
 
-setInterval(loadPrices, 30000);
+// Refresh every 30 seconds
+setInterval(
+  loadPrices,
+  30000
+);
 ```
